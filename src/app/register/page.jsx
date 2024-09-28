@@ -1,7 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { registerUser } from "@/service/user.service";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
@@ -9,26 +11,53 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
+  const [passwordRepeat, setPasswordRepeat] = useState("");
   const [role, setRole] = useState("");
   const [profilePictureUrl, setProfilePictureUrl] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
 
   const optionsRole = [
     { value: "admin", label: "Admin" },
     { value: "user", label: "User" },
   ];
 
-  const handleRegister = () => {
-    alert("Register Success");
-    console.log(role);
-    console.log(name);
-    console.log(email);
-    console.log(password);
-    console.log(repeatPassword);
-    console.log(profilePictureUrl);
-    console.log(phoneNumber);
+  const handleRegister = async () => {
+    if (password !== passwordRepeat) {
+      alert("Password doesn't match");
+      return;
+    }
+
+    // INI OBJECT KONTOL
+    const userData = {
+      name,
+      email,
+      password,
+      passwordRepeat,
+      role,
+      profilePictureUrl,
+      phoneNumber,
+    };
+
+    try {
+      const response = await registerUser(userData); 
+
+      if(!response){
+        alert("Register Failed");
+        return;
+      }
+
+      console.log(response.status);
+
+      if (response?.status === "OK") {
+        router.push("/login");  
+      }
+
+
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -62,7 +91,7 @@ const Register = () => {
             <Input
               type="password"
               placeholder="Confirm Password"
-              onChange={(e) => setRepeatPassword(e.target.value)}
+              onChange={(e) => setPasswordRepeat(e.target.value)}
             />
 
             {isClient && (
