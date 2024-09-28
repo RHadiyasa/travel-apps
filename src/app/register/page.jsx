@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 const Register = () => {
@@ -11,12 +11,29 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [role, setRole] = useState("");
+  const [profilePictureUrl, setProfilePictureUrl] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [isClient, setIsClient] = useState(false);
 
   const optionsRole = [
     { value: "admin", label: "Admin" },
     { value: "user", label: "User" },
   ];
+
+  const handleRegister = () => {
+    alert("Register Success");
+    console.log(role);
+    console.log(name);
+    console.log(email);
+    console.log(password);
+    console.log(repeatPassword);
+    console.log(profilePictureUrl);
+    console.log(phoneNumber);
+  };
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   let bgStyle =
     "hidden lg:flex bg-[url('https://images.unsplash.com/photo-1465101162946-4377e57745c3?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHNwYWNlJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D')] bg-cover h-screen rounded-lg w-full";
@@ -27,20 +44,51 @@ const Register = () => {
         <p className="text-xl font-bold text-center">Register Your Account</p>
         <div className="flex items-center justify-center">
           <div className="flex flex-col w-[400px] gap-3 mt-5">
-            <Input type="name" placeholder="Name" />
-            <Input type="email" placeholder="Email" />
-            <Input type="password" placeholder="Password" />
-            <Input type="passwordRepeat" placeholder="Confirm Password" />
-            <Select options={optionsRole} />
-            <Input type="profilePictureUrl" placeholder="Profile Pict URL" />
-            <Input type="phoneNumber" placeholder="Phone Number" />
-            <Button>Register</Button>
-            <p className="text-sm">
+            <Input
+              type="name"
+              placeholder="Name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="Confirm Password"
+              onChange={(e) => setRepeatPassword(e.target.value)}
+            />
+
+            {isClient && (
+              <Select
+                onChange={(event) => setRole(event.value)}
+                options={optionsRole}
+              />
+            )}
+
+            <Input
+              type="text"
+              placeholder="Profile Pict URL"
+              onChange={(e) => setProfilePictureUrl(e.target.value)}
+            />
+            <Input
+              type="number"
+              placeholder="Phone Number"
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+            <Button onClick={handleRegister}>Register</Button>
+            <span className="text-sm">
               Already have an account?{" "}
               <Link href="/login" className="font-bold text-blue-700 text-sm">
                 Login
               </Link>
-            </p>
+            </span>
             {/* gua mute bentar yak */}
           </div>
         </div>
