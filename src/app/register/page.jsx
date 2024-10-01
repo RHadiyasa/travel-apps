@@ -41,9 +41,9 @@ const Register = () => {
     };
 
     try {
-      const response = await registerUser(userData); 
+      const response = await registerUser(userData);
 
-      if(!response){
+      if (!response) {
         alert("Register Failed");
         return;
       }
@@ -51,10 +51,8 @@ const Register = () => {
       console.log(response.status);
 
       if (response?.status === "OK") {
-        router.push("/login");  
+        router.push("/login");
       }
-
-
     } catch (error) {
       console.error(error.message);
     }
@@ -102,7 +100,7 @@ const Register = () => {
             )}
 
             <Input
-              type="text"
+              type="file"
               placeholder="Profile Pict URL"
               onChange={(e) => setProfilePictureUrl(e.target.value)}
             />

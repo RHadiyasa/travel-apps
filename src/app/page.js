@@ -10,13 +10,17 @@ export default function Home() {
   return (
     // Ini akan menjadi welcome page
     <div className="flex h-screen w-screen items-center justify-center">
-      <h1 className="text-2xl font-Bold">RRSH Travel</h1>
-      <Link href={"/login"}>
-        <Button>Login</Button>
-      </Link>
-      <Link href={"/register"}>
-        <Button>Register</Button>
-      </Link>
+      <div>
+        <h1 className="text-4xl font-extrabold text-center mb-4">RRSH TRAVEL</h1>
+        <div className="flex gap-3 items-center justify-center">
+          <Link href={"/login"}>
+            <Button className="flex rounded-lg px-10">Login</Button>
+          </Link>
+          <Link href={"/register"}>
+            <Button className="flex rounded-lg px-10">Register</Button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
