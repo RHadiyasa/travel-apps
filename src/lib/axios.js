@@ -8,3 +8,11 @@ export const axiosInstance = axios.create({
         "apiKey": process.env.NEXT_PUBLIC_API_KEY
     }
 })
+
+export const axiosInstanceUploadImage = axios.create({
+    baseURL: "https://travel-journal-api-bootcamp.do.dibimbing.id",
+    headers: {
+        "Content-Type": "multipart/form-data",
+        "apiKey": process.env.NEXT_PUBLIC_API_KEY
+    }
+})
