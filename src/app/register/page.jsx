@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { uploadImage } from "@/lib/upload-image";
 import { registerUser } from "@/service/user.service";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -29,14 +30,27 @@ const Register = () => {
       return;
     }
 
-    // INI OBJECT KONTOL
+    // kalo si user gak ngisi foto, dia akan diisi dengan string kosong
+    let uploadedImageUrl = "";
+
+    // kalo user upload foto
+    if (profilePictureUrl) {
+      uploadedImageUrl = await uploadImage(profilePictureUrl);
+      console.log("URL kontol: ", uploadedImageUrl);
+
+      if (!uploadedImageUrl) {
+        alert("Image upload failed");
+        return;
+      }
+    }
+
     const userData = {
       name,
       email,
       password,
       passwordRepeat,
       role,
-      profilePictureUrl,
+      profilePictureUrl: uploadedImageUrl,
       phoneNumber,
     };
 
@@ -102,7 +116,7 @@ const Register = () => {
             <Input
               type="file"
               placeholder="Profile Pict URL"
-              onChange={(e) => setProfilePictureUrl(e.target.value)}
+              onChange={(e) => setProfilePictureUrl(e.target.files[0])}
             />
             <Input
               type="number"

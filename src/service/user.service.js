@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
+import Cookies from "js-cookie";
 
 // Handle User Services
 export const registerUser = async (userData) => {
@@ -7,12 +8,22 @@ export const registerUser = async (userData) => {
     console.log("Register Success", response);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("Register Failed", error);
   }
 };
 
-export const loginUser = () => {};
+export const loginUser = async (loginData) => {
+  try {
+    const response = await axiosInstance.post("/api/v1/login", loginData);
+    console.log("Login Success", response);
+    return response.data;
+  } catch (error) {
+    console.error("Login Failed", error);
+  }
+};
 
-export const logoutUser = () => {};
+export const logoutUser = () => {
+  Cookies.remove("token");
+};
 
 export const deleteAccountUser = () => {};
