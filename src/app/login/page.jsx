@@ -5,11 +5,14 @@ import { loginUser } from "@/service/user.service";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/userSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -27,13 +30,19 @@ const Login = () => {
       if (!loginUserData) {
         alert("Login Failed");
         return;
+      } else {
+        // Masukin data LoginUserData ke dalam Store (redux)
+        // Logic redux
+        dispatch(
+          login({
+            user: loginUserData.data,
+            token: loginUserData.token,
+          })
+        );
+
+        // Redirect to home page
+        router.push("/home");
       }
-
-      // Masukin data LoginUserData ke dalam Store (redux)
-      // Logic redux
-
-      // Redirect to home page
-      router.push("/home");
     } catch (error) {
       console.error("Login Failed", error);
     }

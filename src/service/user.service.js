@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
+import Cookies from "js-cookie";
 
 // Handle User Services
 export const registerUser = async (userData) => {
@@ -21,6 +22,8 @@ export const loginUser = async (loginData) => {
   }
 };
 
-export const logoutUser = () => {};
+export const logoutUser = () => {
+  Cookies.remove("token");
+};
 
 export const deleteAccountUser = () => {};
