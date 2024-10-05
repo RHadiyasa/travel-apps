@@ -73,7 +73,7 @@ const Login = () => {
           </div>
           <Button onClick={handleLogin}>Login</Button>
           <p>
-            Don't have an account? Register{" "}
+            Dont have an account? Register{" "}
             <Link href="/register" className="font-semibold text-blue-600">
               here
             </Link>
