@@ -8,7 +8,7 @@ export default function WelcomePage() {
   return (
     // Ini akan menjadi welcome page
     <div className="grid bg-gradient-to-b from-white to-blue-300/90">
-      <div className="flex  min-w-screen items-center justify-between lg:px-10">
+      <div className="flex  min-w-screen items-center justify-between lg:px-12 xl:px-32">
         <div className="absolute lg:relative px-5 md:pl-10">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center lg:text-left">
             Star your journer by one click, explore beautiful things.

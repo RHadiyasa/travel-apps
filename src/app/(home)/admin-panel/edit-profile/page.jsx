@@ -15,11 +15,12 @@ const EditUser = () => {
   const loggedInUser = useUserData();
 
   console.log(loggedInUser);
+
   const [user, setUser] = useState({
     name: loggedInUser?.name,
     email: loggedInUser?.email,
     phoneNumber: loggedInUser?.phoneNumber,
-    profilePictureUrl: null,
+    profilePictureUrl: loggedInUser?.profilePictureUrl || null,
   });
 
   useEffect(() => {
@@ -28,13 +29,12 @@ const EditUser = () => {
         name: loggedInUser.name || "",
         email: loggedInUser.email || "",
         phoneNumber: loggedInUser.phoneNumber || "",
-        profilePicture: null, // Reset untuk file upload
       });
     }
   }, [loggedInUser]);
 
   const handleSubmit = async () => {
-    let uploadedImageUrl = "";
+    let uploadedImageUrl = user.profilePictureUrl;
 
     // kalo user upload foto
     if (user.profilePictureUrl) {

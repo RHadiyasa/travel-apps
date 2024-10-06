@@ -30,12 +30,19 @@ const PromoPage = () => {
     router.push(`/admin-panel/promos/${promo.id}`);
   };
 
+  const handleCreate = () => {
+    router.push("/admin-panel/promos/new-promo");
+  };
+
   return (
     <div>
       <div className="grid">
-        <h1 className="text-lg font-semibold text-center py-4 mb-2">
-          Active Promo
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-lg font-semibold text-center py-4 mb-2">
+            Active Promo
+          </h1>
+          <Button onClick={handleCreate}>Create Promo</Button>
+        </div>
         <ScrollArea className="h-[70vh] w-full rounded-md overflow-auto">
           <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {promos.map((promo) => (

@@ -3,15 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { formatRupiah } from "@/lib/custom-utils";
+import { uploadImage } from "@/lib/upload-image";
+import { updatePromoById } from "@/service/promo.service";
+import { updatePromoDetails } from "@/store/promoSlice";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const PromoDetails = () => {
   const [onEdit, setOnEdit] = useState(false);
+  const dispatch = useDispatch();
   const promoData = useSelector((state) => state.promoDetail.promo);
-  console.log(promoData);
+  // console.log(promoData);
 
   const [promo, setPromo] = useState({
     title: promoData?.title || "",
@@ -31,9 +35,28 @@ const PromoDetails = () => {
     );
   }
 
-  const handleUpdate = () => {
+  const handleUpdate = async (promo, id) => {
     setOnEdit(true);
-    console.log(promo);
+    let uploadedImageUrl = promo.imageUrl;
+
+    if (promo.imageUrl !== promoData.imageUrl) {
+      uploadedImageUrl = await uploadImage(promo.imageUrl);
+    }
+    const updatedData = {
+      ...promo,
+      promo_discount_price: parseInt(promo.promo_discount_price),
+      minimum_claim_price: parseInt(promo.minimum_claim_price),
+      imageUrl: uploadedImageUrl,
+    };
+
+    try {
+      await updatePromoById(updatedData, id);
+      dispatch(updatePromoDetails(updatedData));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setOnEdit(false);
+    }
   };
 
   return (
@@ -45,11 +68,30 @@ const PromoDetails = () => {
         </div>
       </Link>
       <div className="flex gap-2">
-        <img
-          src={promoData.imageUrl}
-          className="w-1/2"
-          style={{ objectFit: "cover" }}
-        />
+        {!onEdit ? (
+          <img
+            src={promoData.imageUrl}
+            className="w-1/2"
+            style={{ objectFit: "cover" }}
+          />
+        ) : (
+          <div className="flex flex-col gap-2 items-center justify-center w-2/3">
+            <img
+              src={promoData.imageUrl}
+              className="w-full h-40"
+              style={{ objectFit: "cover" }}
+            />
+            <label className="text-left text-xs font-semibold">
+              Update Image
+            </label>
+            <Input
+              type="file"
+              onChange={(e) =>
+                setPromo({ ...promo, imageUrl: e.target.files[0] })
+              }
+            />
+          </div>
+        )}
         <div className="flex flex-col gap-4 px-6 w-full">
           {!onEdit ? (
             <div className="font-semibold py-2">{promoData.title}</div>
@@ -72,7 +114,7 @@ const PromoDetails = () => {
                 rows={8}
                 placeholder="Description"
                 className="w-full"
-                value={promoData.description}
+                value={promo.description}
                 onChange={(e) =>
                   setPromo({ ...promo, description: e.target.value })
                 }
@@ -83,32 +125,83 @@ const PromoDetails = () => {
       </div>
       <div>
         <div className="py-4 font-semibold">Details Promo</div>
-        <div className="flex">
+        <div className="flex gap-3">
           <div className="w-1/3 text-sm">
             <div>Minimum Claim</div>
-            <div className="font-semibold text-lg">
-              {formatRupiah(promoData.minimum_claim_price)}
-            </div>
+            {!onEdit ? (
+              <div className="font-semibold text-lg">
+                {formatRupiah(promoData.minimum_claim_price)}
+              </div>
+            ) : (
+              <Input
+                type="number"
+                value={promo.minimum_claim_price}
+                onChange={(e) =>
+                  setPromo({ ...promo, minimum_claim_price: e.target.value })
+                }
+              />
+            )}
           </div>
           <div className="w-1/3 text-sm">
             <div>Discount Price</div>
-            <div className="font-semibold text-lg">
-              {formatRupiah(promoData.promo_discount_price)}
-            </div>
+            {!onEdit ? (
+              <div className="font-semibold text-lg">
+                {formatRupiah(promoData.promo_discount_price)}
+              </div>
+            ) : (
+              <Input
+                type="number"
+                value={promo.promo_discount_price}
+                onChange={(e) =>
+                  setPromo({ ...promo, promo_discount_price: e.target.value })
+                }
+              />
+            )}
           </div>
           <div className="w-1/3 text-sm">
             <div>Promo Code</div>
-            <div className="font-semibold text-lg">{promoData.promo_code}</div>
+            {!onEdit ? (
+              <div className="font-semibold text-lg">
+                {promoData.promo_code}
+              </div>
+            ) : (
+              <Input
+                type="text"
+                value={promo.promo_code}
+                onChange={(e) =>
+                  setPromo({ ...promo, promo_code: e.target.value })
+                }
+              />
+            )}
           </div>
         </div>
       </div>
       <div>
         <div className="mt-2 font-semibold">Term and Conditions</div>
-        <div className="text-xs text-gray-500">{promoData.terms_condition}</div>
+        {!onEdit ? (
+          <div className="text-xs text-gray-500">
+            {promoData.terms_condition}
+          </div>
+        ) : (
+          <Input
+            type="text"
+            value={promo.terms_condition}
+            onChange={(e) =>
+              setPromo({ ...promo, terms_condition: e.target.value })
+            }
+          />
+        )}
       </div>
       <div className="flex gap-4">
-        <Button onClick={handleUpdate} className="w-full mt-4">
-          {onEdit ? "Save" : "Update"}
+        <Button
+          onClick={
+            onEdit
+              ? () => handleUpdate(promo, promoData.id)
+              : () => setOnEdit(true)
+          }
+          className="w-full mt-4"
+        >
+          {!onEdit ? "Update" : "Save"}
         </Button>
         {onEdit && (
           <Button

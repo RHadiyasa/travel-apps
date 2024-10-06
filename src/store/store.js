@@ -4,9 +4,31 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { userReducer } from "./userSlice";
 import { userDetailsReducer } from "./userDetailSlice";
-import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import { promoDetailsReducer } from "./promoSlice";
+import createWebStorage from "redux-persist/lib/storage/createWebStorage"
+
+
+// Sebuah method untuk mengatisipasi ketika storage tidak tersedia di server.
+// Karena Next js ada SSR, maka server tidak ada local storage seperti di website / client side.
+// Sehingga dibutuhkan mekanisme untuk menangani hal tersebut dengan aman
+
+const createNoopStorage = () => {
+  return {
+    getItem() {
+      return Promise.resolve(null);
+    },
+    setItem() {
+      return Promise.resolve();
+    },
+    removeItem() {
+      return Promise.resolve();
+    },
+  };
+};
+
+const storage =
+  typeof window !== "undefined" ? createWebStorage("local") : createNoopStorage(); 
 
 const persistConfig = {
   key: "root",
