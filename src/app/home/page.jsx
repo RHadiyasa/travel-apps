@@ -3,9 +3,14 @@ import { Button } from "@/components/ui/button";
 import { logoutUser } from "@/service/user.service";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const router = useRouter();
+
+  // Untuk ambil data pakai yang namanya useSelector
+  const user = useSelector((state) => state.user.user);
+
   const handleLogout = () => {
     logoutUser();
     router.push("/");
@@ -14,8 +19,17 @@ const HomePage = () => {
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="grid">
-        <div>Home Page</div>
-        <Button onClick={handleLogout}>Logout</Button>
+        <img
+          src={user?.profilePictureUrl}
+          alt="profile picture" // untuk meningkatan keterbacaan file dari search engine
+          className="h-40"
+        />
+        <div className="text-center">
+          <div>Welcome, {user?.name}</div>
+          <div>{user?.email}</div>
+          <div>{user?.phoneNumber}</div>
+        </div>
+        <Button className="mt-5" onClick={handleLogout}>Logout</Button>
       </div>
     </div>
   );

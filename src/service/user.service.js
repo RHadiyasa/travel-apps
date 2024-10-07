@@ -26,4 +26,18 @@ export const logoutUser = () => {
   Cookies.remove("token");
 };
 
+export const getLoggedInUser = async () => {
+  try {
+    const response = await axiosInstance.get("api/v1/user", {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    logoutUser();
+    return null;
+  }
+};
+
 export const deleteAccountUser = () => {};
