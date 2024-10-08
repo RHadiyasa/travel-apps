@@ -41,3 +41,5 @@ export const getLoggedInUser = async () => {
 };
 
 export const deleteAccountUser = () => {};
+
+export const getAllUsers = () => {};

@@ -22,7 +22,8 @@ const HomePage = () => {
         <img
           src={user?.profilePictureUrl}
           alt="profile picture" // untuk meningkatan keterbacaan file dari search engine
-          className="h-40"
+          style={{ objectFit: "cover" }}
+          className="h-40 w-40 rounded-full"
         />
         <div className="text-center">
           <div>Welcome, {user?.name}</div>

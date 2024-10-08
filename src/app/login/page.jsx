@@ -25,7 +25,7 @@ const Login = () => {
 
     try {
       const loginUserData = await loginUser(loginData);
-      console.log("Data User: ", loginUserData);
+      // console.log("Data User: ", loginUserData);
 
       if (!loginUserData) {
         alert("Login Failed");
@@ -41,7 +41,12 @@ const Login = () => {
         );
 
         // Redirect to home page
-        router.push("/home");
+        // cek admin atau user
+        if (loginUserData.data.role === "admin") {
+          router.push("/dashboard");
+        } else {
+          router.push("/home");
+        }
       }
     } catch (error) {
       console.error("Login Failed", error);
