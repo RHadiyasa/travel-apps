@@ -2,8 +2,27 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import { userReducer } from "./userSlice";
-import storage from "redux-persist/lib/storage";
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+import { userDetailsReducer } from "./userDetails";
 
+const createNoopStorage = () => {
+  return {
+    getItem() {
+      return Promise.resolve(null);
+    },
+    setItem() {
+      return Promise.resolve();
+    },
+    removeItem() {
+      return Promise.resolve();
+    },
+  };
+};
+
+const storage =
+  typeof window !== "undefined"
+    ? createWebStorage("local")
+    : createNoopStorage();
 const persistConfig = {
   key: "root",
   storage,
@@ -12,6 +31,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   // ini isinya adalah state dari redux
   user: userReducer,
+  details: userDetailsReducer,
 });
 
 // Persist Reducer

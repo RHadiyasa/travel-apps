@@ -25,7 +25,7 @@ const Login = () => {
 
     try {
       const loginUserData = await loginUser(loginData);
-      console.log("Data User: ", loginUserData);
+      // console.log("Data User: ", loginUserData);
 
       if (!loginUserData) {
         alert("Login Failed");
@@ -41,10 +41,21 @@ const Login = () => {
         );
 
         // Redirect to home page
-        router.push("/home");
+        // cek admin atau user
+        if (loginUserData.data.role === "admin") {
+          router.push("/dashboard");
+        } else {
+          router.push("/home");
+        }
       }
     } catch (error) {
       console.error("Login Failed", error);
+    }
+  };
+
+  const handleKeyPress = () => {
+    if (event.key === "Enter") {
+      handleLogin();
     }
   };
 
@@ -71,7 +82,9 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button onClick={handleLogin}>Login</Button>
+          <Button onClick={handleLogin} onKeyPress={handleKeyPress}>
+            Login
+          </Button>
           <p>
             Dont have an account? Register{" "}
             <Link href="/register" className="font-semibold text-blue-600">
