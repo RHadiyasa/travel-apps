@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import { userReducer } from "./userSlice";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+import { userDetailsReducer } from "./userDetails";
 
 const createNoopStorage = () => {
   return {
@@ -30,6 +31,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   // ini isinya adalah state dari redux
   user: userReducer,
+  details: userDetailsReducer,
 });
 
 // Persist Reducer

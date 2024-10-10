@@ -21,7 +21,7 @@ const CustomHeader = () => {
         const response = await getLoggedInUser();
         setLoggedInUser(response.data);
       } catch (error) {
-        alert("logged out");
+        // alert("logged out");
         console.error(error);
       }
     };

@@ -11,6 +11,10 @@ export function middleware(request) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  if(!token && path.startsWith("/admin-panel")){
+    return NextResponse.redirect(new URL("/login", request.url)); 
+  }
+
   // Kalo misalkan punya token
   if (token && (path === "/login" || path === "/register")) {
     return NextResponse.redirect(new URL("/home", request.url));
@@ -21,5 +25,5 @@ export function middleware(request) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/home/", "/login", "/register"],
+  matcher: ["/home/", "/login", "/register", "/admin-panel/:path*"],
 };

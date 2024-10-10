@@ -40,6 +40,19 @@ export const getLoggedInUser = async () => {
   }
 };
 
-export const deleteAccountUser = () => {};
-
-export const getAllUsers = () => {};
+export const getAllUsers = async() => {
+  try {
+    const response = await axiosInstance.get("/api/v1/all-user", {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response.status === 401) {
+      // redirect
+      window.location.href = "/home";
+    }
+    console.error(error);
+  }
+};

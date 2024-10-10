@@ -53,6 +53,12 @@ const Login = () => {
     }
   };
 
+  const handleKeyPress = () => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <div className="flex h-screen w-screen items-center justify-center">
       <div className="grid items-center justify-center">
@@ -76,7 +82,9 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button onClick={handleLogin}>Login</Button>
+          <Button onClick={handleLogin} onKeyPress={handleKeyPress}>
+            Login
+          </Button>
           <p>
             Dont have an account? Register{" "}
             <Link href="/register" className="font-semibold text-blue-600">
