@@ -36,7 +36,6 @@ const Register = () => {
     // kalo user upload foto
     if (profilePictureUrl) {
       uploadedImageUrl = await uploadImage(profilePictureUrl);
-      console.log("URL kontol: ", uploadedImageUrl);
 
       if (!uploadedImageUrl) {
         alert("Image upload failed");

@@ -59,7 +59,7 @@ const PromoPage = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-xs">
-                  {trimUsername(promo.description)}
+                  {trimUsername(promo.description, 120)}
                 </CardContent>
                 <CardFooter>
                   <Button

@@ -4,15 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { formatRupiah } from "@/lib/custom-utils";
 import { uploadImage } from "@/lib/upload-image";
-import { updatePromoById } from "@/service/promo.service";
+import { deletePromoById, updatePromoById } from "@/service/promo.service";
 import { updatePromoDetails } from "@/store/promoSlice";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const PromoDetails = () => {
   const [onEdit, setOnEdit] = useState(false);
+
+  const router = useRouter();
   const dispatch = useDispatch();
   const promoData = useSelector((state) => state.promoDetail.promo);
   // console.log(promoData);
@@ -59,14 +63,36 @@ const PromoDetails = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await deletePromoById(id);
+      toast.success("Promo deleted successfully");
+      router.push("/admin-panel/promos");
+    } catch (error) {
+      toast.error("Failed to delete promo");
+    }
+  };
+
   return (
     <div className="grid px-2">
-      <Link href={`/admin-panel/promos`}>
-        <div className="flex gap-2 items-center mb-4 hover:font-semibold">
-          <ArrowLeftIcon size={18} className="hover:scale-110" />
-          <span>Back</span>
+      <div className="flex items-center justify-between py-5">
+        <Link href={`/admin-panel/promos`}>
+          <div className="flex gap-2 items-center mb-4 hover:font-semibold">
+            <ArrowLeftIcon size={18} className="hover:scale-110" />
+            <span>Back</span>
+          </div>
+        </Link>
+        <div>
+          <Button
+            size="sm"
+            variant="destructive"
+            className="text-white font-semibold"
+            onClick={() => handleDelete(promoData.id)}
+          >
+            Delete Promo
+          </Button>
         </div>
-      </Link>
+      </div>
       <div className="flex gap-2">
         {!onEdit ? (
           <img

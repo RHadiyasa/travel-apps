@@ -10,12 +10,12 @@ export const getActivities = async () => {
   }
 };
 
-export const getCategories = async () => {
+export const getActivityById = async (id) => {
   try {
-    const response = await axiosInstance.get("/api/v1/categories");
+    const response = await axiosInstance.get(`/api/v1/activity/${id}`);
     return response.data;
   } catch (error) {
-    toast.error("Get Category Failed", error);
+    console.error(error);
   }
 };
 

@@ -1,6 +1,5 @@
-import { getCategories } from "@/service/activity.service";
-
-const { useState, useEffect } = require("react");
+import { getCategories } from "@/service/category.service";
+import { useEffect, useState } from "react";
 
 const useCategoriesData = () => {
   const [categories, setCategories] = useState([]);
