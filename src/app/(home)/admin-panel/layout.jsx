@@ -7,7 +7,7 @@ export default function AdminPanelLayout({
   return (
     <section>
       {/* Include shared UI here e.g. a header or sidebar */}
-      <div className="p-10 px-20">
+      <div className="p-10 px-10 lg:px-20">
         <h1 className="text-xl font-bold">Welcome Admin</h1>
         <div className="flex mt-5 gap-5">
           <CustomPanel />

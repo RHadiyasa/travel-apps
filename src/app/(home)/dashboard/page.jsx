@@ -12,9 +12,9 @@ const Dashboard = () => {
   // const banners = useBanner();
 
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="grid gap-10 h-screen items-center justify-center">
       {/* Card Dashboard Grafik / Chart */}
-      <div className="grid grid-cols-3 gap-5">
+      <div className="flex flex-wrap items-center gap-5">
         <CustomCard
           title={"Users"}
           description={"Total Our Users"}
@@ -52,6 +52,7 @@ const Dashboard = () => {
           footer={<Button>Action</Button>}
         />
       </div>
+        <Button onClick={() => window.location.href = "/admin-panel"}>Admin Panel</Button>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import React from "react";
 
 const CustomPanel = () => {
   return (
-    <div className="p-5 bg-slate-900 text-white h-auto px-10 w-1/5">
+    <div className="p-5 bg-slate-900 text-white h-96 px-10 w-1/3">
       <Link href={"/admin-panel"}>
         <div className="font-bold py-5">List of Services</div>
       </Link>

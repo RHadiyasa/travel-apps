@@ -40,7 +40,7 @@ export const getLoggedInUser = async () => {
   }
 };
 
-export const getAllUsers = async() => {
+export const getAllUsers = async () => {
   try {
     const response = await axiosInstance.get("/api/v1/all-user", {
       headers: {
@@ -53,6 +53,23 @@ export const getAllUsers = async() => {
       // redirect
       window.location.href = "/home";
     }
+    console.error(error);
+  }
+};
+
+export const updateAdminProfile = async (updatedUserData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/api/v1/update-profile",
+      updatedUserData,
+      {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
     console.error(error);
   }
 };

@@ -22,7 +22,7 @@ const UserDetailPage = () => {
     <div>
       <h1 className="font-bold text-center text-lg">List all users</h1>
       <ScrollArea className="h-[600px] w-auto overflow-auto">
-        <div className="grid grid-cols-2 gap-4 py-5">
+        <div className="grid lg:grid-cols-2 gap-4 py-5">
           {allUsers.map((user) => (
             <div
               key={user.id}
